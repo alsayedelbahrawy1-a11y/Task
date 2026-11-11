@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orbit — Goals, Habits &amp; Tasks Organizer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"></circle>
+            <circle cx="12" cy="12" r="3.5"></circle>
+            <path d="M19.5 4.5L15 9"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">Orbit</h1>
+          <span class="brand-subtitle">Goals &bull; Habits &bull; Tasks</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu" aria-label="Main Navigation">
+        <button class="nav-item active" data-view="today">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <span>Today's Focus</span>
+          <span class="nav-badge" id="badge-today">0</span>
+        </button>
+
+        <button class="nav-item" data-view="goals">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <span>Goals</span>
+          <span class="nav-badge" id="badge-goals">0</span>
+        </button>
+
+        <button class="nav-item" data-view="habits">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>Habits</span>
+          <span class="nav-badge" id="badge-habits">0</span>
+        </button>
+
+        <button class="nav-item" data-view="tasks">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>Tasks</span>
+          <span class="nav-badge" id="badge-tasks">0</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">Active Goals</div>
+        <div id="sidebar-goals-list" class="sidebar-goals-list"></div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="storage-indicator" id="storage-status" title="Saved automatically in browser storage">
+          <span class="status-dot"></span>
+          <span id="storage-size-label">Local Storage</span>
+        </div>
+        <div class="sidebar-actions">
+          <button class="btn btn-ghost btn-sm" id="btn-open-data" title="Export or Import Lite Backup File">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Backup / Lite File</span>
+          </button>
+          <button class="btn btn-icon btn-ghost" id="btn-theme-toggle" title="Toggle Dark/Light Theme" aria-label="Toggle Theme">
+            <svg id="icon-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg id="icon-sun" class="hidden" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="btn btn-icon btn-ghost mobile-menu-btn" id="btn-mobile-menu" aria-label="Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <div>
+            <h2 id="view-title" class="view-title">Today's Focus</h2>
+            <p id="view-subtitle" class="view-subtitle"></p>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="search-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="global-search" placeholder="Search goals, habits, tasks..." autocomplete="off" />
+          </div>
+
+          <div class="quick-create-group">
+            <button class="btn btn-secondary" id="btn-new-goal">+ Goal</button>
+            <button class="btn btn-secondary" id="btn-new-habit">+ Habit</button>
+            <button class="btn btn-primary" id="btn-new-task">+ Task</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Global Search Results Overlay -->
+      <section id="search-results-panel" class="search-results-panel hidden"></section>
+
+      <!-- VIEW 1: TODAY'S FOCUS -->
+      <section id="view-today" class="view-section active">
+        <div id="demo-banner" class="demo-banner hidden">
+          <div>
+            <strong>Starter workspace loaded:</strong> Explore how Goals, Habits, and Tasks link together, or start with a blank slate anytime.
+          </div>
+          <div class="demo-banner-actions">
+            <button class="btn btn-sm btn-ghost" id="btn-dismiss-banner">Keep Sample Data</button>
+            <button class="btn btn-sm btn-secondary" id="btn-clear-demo">Start Fresh</button>
+          </div>
+        </div>
+
+        <!-- KPI Summary Cards -->
+        <div class="stats-grid" id="today-stats-grid"></div>
+
+        <!-- Quick Capture Bar -->
+        <form id="quick-task-form" class="quick-capture-bar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <input type="text" id="quick-task-input" placeholder="Quick capture a task for Today's Focus... (press Enter)" autocomplete="off" />
+          <select id="quick-task-goal" aria-label="Link to goal"></select>
+          <select id="quick-task-priority" aria-label="Priority">
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+          </select>
+          <button type="submit" class="btn btn-primary btn-sm">Add</button>
+        </form>
+
+        <div class="today-columns">
+          <!-- Left Column: Today's Habits & Focus Tasks -->
+          <div class="today-col-main">
+            <div class="card panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Today's Habits</h3>
+                  <span class="text-muted text-sm" id="today-habits-summary"></span>
+                </div>
+                <button class="btn btn-ghost btn-sm" data-goto="habits">View All &rarr;</button>
+              </div>
+              <div id="today-habits-list" class="stack-list"></div>
+            </div>
+
+            <div class="card panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Focus &amp; Due Tasks</h3>
+                  <span class="text-muted text-sm" id="today-tasks-summary"></span>
+                </div>
+                <button class="btn btn-ghost btn-sm" data-goto="tasks">All Tasks &rarr;</button>
+              </div>
+              <div id="today-tasks-list" class="stack-list"></div>
+            </div>
+          </div>
+
+          <!-- Right Column: Goal Momentum & Upcoming -->
+          <div class="today-col-side">
+            <div class="card panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Goal Momentum</h3>
+                  <span class="text-muted text-sm">Driven by linked milestones &amp; tasks</span>
+                </div>
+                <button class="btn btn-ghost btn-sm" data-goto="goals">Manage &rarr;</button>
+              </div>
+              <div id="today-goals-list" class="stack-list"></div>
+            </div>
+
+            <div class="card panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Upcoming Deadlines</h3>
+                  <span class="text-muted text-sm">Next 7 days</span>
+                </div>
+              </div>
+              <div id="today-upcoming-list" class="stack-list"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: GOALS -->
+      <section id="view-goals" class="view-section">
+        <div class="filter-bar">
+          <div class="segmented-control" id="goal-status-filter">
+            <button class="seg-btn active" data-status="all">All</button>
+            <button class="seg-btn" data-status="active">Active</button>
+            <button class="seg-btn" data-status="paused">Paused</button>
+            <button class="seg-btn" data-status="completed">Completed</button>
+          </div>
+          <div class="filter-group">
+            <label for="goal-category-filter" class="sr-only">Category</label>
+            <select id="goal-category-filter">
+              <option value="all">All Categories</option>
+              <option value="Health">Health &amp; Fitness</option>
+              <option value="Career">Career &amp; Work</option>
+              <option value="Learning">Learning &amp; Skills</option>
+              <option value="Finance">Finance</option>
+              <option value="Personal">Personal &amp; Lifestyle</option>
+              <option value="Creative">Creative</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="goals-grid" class="goals-grid"></div>
+      </section>
+
+      <!-- VIEW 3: HABITS -->
+      <section id="view-habits" class="view-section">
+        <div class="card panel heatmap-panel">
+          <div class="panel-header">
+            <div>
+              <h3>12-Week Consistency Heatmap</h3>
+              <span class="text-muted text-sm" id="heatmap-subtitle">Daily habit completions across all active habits</span>
+            </div>
+            <div class="heatmap-legend">
+              <span>Less</span>
+              <span class="heat-cell lvl-0"></span>
+              <span class="heat-cell lvl-1"></span>
+              <span class="heat-cell lvl-2"></span>
+              <span class="heat-cell lvl-3"></span>
+              <span class="heat-cell lvl-4"></span>
+              <span>More</span>
+            </div>
+          </div>
+          <div id="habits-heatmap" class="heatmap-container"></div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="segmented-control" id="habit-filter-group">
+            <button class="seg-btn active" data-filter="active">Active Habits</button>
+            <button class="seg-btn" data-filter="today">Scheduled Today</button>
+            <button class="seg-btn" data-filter="archived">Archived</button>
+          </div>
+          <div class="filter-group">
+            <select id="habit-goal-filter">
+              <option value="all">All Linked Goals</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="habits-list" class="habits-list"></div>
+      </section>
+
+      <!-- VIEW 4: TASKS -->
+      <section id="view-tasks" class="view-section">
+        <div class="filter-bar tasks-filter-bar">
+          <div class="segmented-control" id="task-tab-filter">
+            <button class="seg-btn active" data-tab="active">Active</button>
+            <button class="seg-btn" data-tab="focus">Today's Focus</button>
+            <button class="seg-btn" data-tab="upcoming">Upcoming</button>
+            <button class="seg-btn" data-tab="overdue">Overdue</button>
+            <button class="seg-btn" data-tab="done">Completed</button>
+          </div>
+
+          <div class="filter-group">
+            <select id="task-goal-filter">
+              <option value="all">All Goals</option>
+            </select>
+            <select id="task-priority-filter">
+              <option value="all">All Priorities</option>
+              <option value="high">High Priority</option>
+              <option value="medium">Medium Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+
+            <div class="segmented-control" id="task-layout-toggle" title="Switch Layout">
+              <button class="seg-btn active" data-layout="list">List</button>
+              <button class="seg-btn" data-layout="kanban">Board</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tasks-container"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: GOAL CREATE / EDIT -->
+  <div class="modal-backdrop hidden" id="modal-goal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-goal-title">
+      <div class="modal-header">
+        <h3 id="modal-goal-title">New Goal</h3>
+        <button class="btn btn-icon btn-ghost" data-close-modal="modal-goal" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-goal" class="modal-body">
+        <input type="hidden" id="goal-id" />
+        <div class="form-group">
+          <label for="goal-title">Goal Title *</label>
+          <input type="text" id="goal-title" required placeholder="e.g., Run a Half Marathon under 2 hours" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="goal-category">Life Category</label>
+            <select id="goal-category">
+              <option value="Health">Health &amp; Fitness</option>
+              <option value="Career">Career &amp; Work</option>
+              <option value="Learning">Learning &amp; Skills</option>
+              <option value="Finance">Finance</option>
+              <option value="Personal">Personal &amp; Lifestyle</option>
+              <option value="Creative">Creative</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="goal-target-date">Target Date</label>
+            <input type="date" id="goal-target-date" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="goal-status">Status</label>
+            <select id="goal-status">
+              <option value="active">Active</option>
+              <option value="paused">Paused</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="goal-color">Accent Color</label>
+            <input type="color" id="goal-color" value="#4f46e5" class="color-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="goal-description">Why this matters / Motivation</label>
+          <textarea id="goal-description" rows="2" placeholder="Define success criteria or why this goal matters..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="goal-progress-mode">Progress Calculation</label>
+            <select id="goal-progress-mode">
+              <option value="auto">Automatic (Milestones + Linked Tasks)</option>
+              <option value="manual">Manual Percentage</option>
+            </select>
+          </div>
+          <div class="form-group hidden" id="goal-manual-progress-wrap">
+            <label for="goal-manual-progress">Manual Progress (<span id="goal-manual-val">0</span>%)</label>
+            <input type="range" id="goal-manual-progress" min="0" max="100" value="0" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Milestones (Key Checkpoints)</label>
+          <div class="milestone-adder">
+            <input type="text" id="new-milestone-input" placeholder="Add a milestone checkpoint..." />
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-add-milestone">Add</button>
+          </div>
+          <ul id="goal-milestones-editor" class="milestones-editor-list"></ul>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger-ghost hidden" id="btn-delete-goal">Delete</button>
+          <div class="modal-footer-right">
+            <button type="button" class="btn btn-ghost" data-close-modal="modal-goal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Goal</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: GOAL DETAIL / LINKED ITEMS -->
+  <div class="modal-backdrop hidden" id="modal-goal-detail">
+    <div class="modal modal-lg" role="dialog" aria-modal="true" aria-labelledby="detail-goal-title">
+      <div class="modal-header">
+        <div class="detail-header-meta">
+          <span id="detail-goal-badge" class="badge"></span>
+          <h3 id="detail-goal-title">Goal Details</h3>
+        </div>
+        <div class="detail-header-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-edit-from-detail">Edit Goal</button>
+          <button class="btn btn-icon btn-ghost" data-close-modal="modal-goal-detail" aria-label="Close">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body" id="detail-goal-body"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: HABIT CREATE / EDIT -->
+  <div class="modal-backdrop hidden" id="modal-habit">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-habit-title">
+      <div class="modal-header">
+        <h3 id="modal-habit-title">New Habit</h3>
+        <button class="btn btn-icon btn-ghost" data-close-modal="modal-habit" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-habit" class="modal-body">
+        <input type="hidden" id="habit-id" />
+        <div class="form-group">
+          <label for="habit-title">Habit Name *</label>
+          <input type="text" id="habit-title" required placeholder="e.g., Read 20 pages, Run 5km, Practice Spanish" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="habit-goal">Linked Goal</label>
+            <select id="habit-goal"></select>
+          </div>
+          <div class="form-group">
+            <label for="habit-color">Color</label>
+            <input type="color" id="habit-color" value="#10b981" class="color-input" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="habit-frequency">Schedule / Frequency</label>
+          <select id="habit-frequency">
+            <option value="daily">Every Day</option>
+            <option value="weekdays">Weekdays (Mon – Fri)</option>
+            <option value="custom_days">Specific Days of Week</option>
+            <option value="times_per_week">Target X Times per Week</option>
+          </select>
+        </div>
+
+        <div class="form-group hidden" id="habit-custom-days-wrap">
+          <label>Select Days</label>
+          <div class="day-picker" id="habit-day-picker">
+            <label class="day-chip"><input type="checkbox" value="0" /><span>Sun</span></label>
+            <label class="day-chip"><input type="checkbox" value="1" checked /><span>Mon</span></label>
+            <label class="day-chip"><input type="checkbox" value="2" /><span>Tue</span></label>
+            <label class="day-chip"><input type="checkbox" value="3" checked /><span>Wed</span></label>
+            <label class="day-chip"><input type="checkbox" value="4" /><span>Thu</span></label>
+            <label class="day-chip"><input type="checkbox" value="5" checked /><span>Fri</span></label>
+            <label class="day-chip"><input type="checkbox" value="6" /><span>Sat</span></label>
+          </div>
+        </div>
+
+        <div class="form-group hidden" id="habit-times-week-wrap">
+          <label for="habit-times-week">Target Completions per Week</label>
+          <input type="number" id="habit-times-week" min="1" max="7" value="3" />
+        </div>
+
+        <div class="form-group">
+          <label for="habit-description">Cue / Notes (Optional)</label>
+          <input type="text" id="habit-description" placeholder="e.g., Right after morning coffee" />
+        </div>
+
+        <div class="form-group checkbox-inline" id="habit-archive-wrap">
+          <label><input type="checkbox" id="habit-archived" /> Archive this habit (pause without losing history)</label>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger-ghost hidden" id="btn-delete-habit">Delete</button>
+          <div class="modal-footer-right">
+            <button type="button" class="btn btn-ghost" data-close-modal="modal-habit">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Habit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: TASK CREATE / EDIT -->
+  <div class="modal-backdrop hidden" id="modal-task">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-task-title">
+      <div class="modal-header">
+        <h3 id="modal-task-title">New Task</h3>
+        <button class="btn btn-icon btn-ghost" data-close-modal="modal-task" aria-label="Close">&times;</button>
+      </div>
+      <form id="form-task" class="modal-body">
+        <input type="hidden" id="task-id" />
+        <div class="form-group">
+          <label for="task-title">Task Title *</label>
+          <input type="text" id="task-title" required placeholder="e.g., Register for race &amp; book hotel" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-goal">Linked Goal</label>
+            <select id="task-goal"></select>
+          </div>
+          <div class="form-group">
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="high">High Priority</option>
+              <option value="medium" selected>Medium Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-due">Due Date</label>
+            <input type="date" id="task-due" />
+          </div>
+          <div class="form-group">
+            <label for="task-recurrence">Recurrence</label>
+            <select id="task-recurrence">
+              <option value="none">Does not repeat</option>
+              <option value="daily">Daily</option>
+              <option value="weekdays">Weekdays (Mon–Fri)</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="task-status">Workflow Stage</label>
+            <select id="task-status">
+              <option value="todo">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="done">Completed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task-tags">Tags (comma separated)</label>
+            <input type="text" id="task-tags" placeholder="deep-work, errands" />
+          </div>
+        </div>
+        <div class="form-group checkbox-inline">
+          <label><input type="checkbox" id="task-focus" /> Pin to <strong>Today's Focus</strong></label>
+        </div>
+        <div class="form-group">
+          <label for="task-notes">Notes / Sub-details</label>
+          <textarea id="task-notes" rows="2" placeholder="Optional context, links, or notes..."></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger-ghost hidden" id="btn-delete-task">Delete</button>
+          <div class="modal-footer-right">
+            <button type="button" class="btn btn-ghost" data-close-modal="modal-task">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Task</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: DATA BACKUP / EXPORT & IMPORT LITE FILE -->
+  <div class="modal-backdrop hidden" id="modal-data">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-data-title">
+      <div class="modal-header">
+        <h3 id="modal-data-title">Browser Storage &amp; Lite File Backup</h3>
+        <button class="btn btn-icon btn-ghost" data-close-modal="modal-data" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="storage-summary-box" id="data-modal-stats"></div>
+
+        <div class="backup-section">
+          <h4>Export Portable Lite File</h4>
+          <p class="text-muted text-sm">Save a compact snapshot of your Goals, Milestones, Habits, Streaks, and Tasks to keep offline or move across devices.</p>
+          <div class="backup-btn-row">
+            <button type="button" class="btn btn-primary" id="btn-export-json">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export Lite JSON (.json)
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-export-sqlite" title="Exports a normalized SQLite .sqlite database file via the local server">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              Export SQLite (.sqlite)
+            </button>
+          </div>
+          <p id="sqlite-server-hint" class="text-muted text-xs mt-1"></p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="backup-section">
+          <h4>Import from File</h4>
+          <p class="text-muted text-sm">Restore from a <code>.json</code> lite backup file or a <code>.sqlite</code> / <code>.db</code> database file.</p>
+          <div class="form-row align-center">
+            <select id="import-mode" aria-label="Import Mode">
+              <option value="replace">Replace current browser data</option>
+              <option value="merge">Merge with current browser data</option>
+            </select>
+            <label class="btn btn-secondary file-upload-btn">
+              <input type="file" id="input-import-file" accept=".json,.sqlite,.db,.sqlite3" hidden />
+              Choose File (.json / .sqlite)
+            </label>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="backup-section danger-zone">
+          <div>
+            <h4>Workspace Reset</h4>
+            <p class="text-muted text-sm">Load starter sample data or wipe browser storage clean.</p>
+          </div>
+          <div class="backup-btn-row">
+            <button type="button" class="btn btn-ghost btn-sm" id="btn-load-sample">Load Sample Data</button>
+            <button type="button" class="btn btn-danger-ghost btn-sm" id="btn-reset-all">Clear All Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
